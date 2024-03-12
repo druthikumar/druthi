@@ -1,0 +1,211 @@
+#include<stdio.h>
+#include<stdlib.h>
+int count=0;
+struct employee
+{
+ char ssn[10];
+ char name[25];
+ char dept[25];
+ char desig[10];
+ double sal;
+ char ph[12];
+ struct employee *leftlink;
+ struct employee *rightlink;
+};
+struct employee *create(struct employee*);
+void display(struct employee *);
+struct employee * insert_front(struct employee *);
+struct employee * delete_front(struct employee *);
+Page | 49
+struct employee * insert_end(struct employee *);
+struct employee * delete_end(struct employee *);
+void dequeue();
+void main()
+{
+ int choice, n,i;
+ struct employee *first=NULL;
+printf("\nProgram to illustrate Doubly Linked List operations\n");
+ do
+ {
+printf("\nEnter 1=> Create DLL of N employees by using end insertion\n\t 2=> Display the status 
+of DLL and count\n\t 3=> Perform Insertion at End\n\t 4=> Perform Deletion at End\n\t5=> 
+Perform Insertion at front\n\t 6=> Perform Deletion at Front\n\t 7=> Demonstration of 
+Dequeue\n\t 8=> Exit\n\t");
+printf("Enter your choice:");
+scanf("%d",&choice);
+ switch(choice)
+ {
+ case 1: printf("\nEnter the number of Employees\n");
+scanf("%d",&n);
+ for(i=1;i<=n;i++)
+ first=insert_end(first);
+ break;
+ case 2: display(first);
+ break;
+ case 3: first=insert_end(first);
+ break;
+ case 4: first=delete_end(first);
+Page | 50
+ break;
+ case 5: first=insert_front(first);
+ break;
+ case 6: first=delete_front(first);
+ break;
+ case 7: dequeue();
+ break;
+ case 8: return;
+default:printf("Enter valid choice");
+ }
+}while(1);
+}
+struct employee * create(struct employee *first)
+{
+ struct employee *node;
+ node=(struct employee*)malloc(sizeof(struct employee));
+ if(node==NULL)
+ {
+printf("Running out of memory");
+exit(0);
+ }
+printf("\nEnter the details of Employee\n\n");
+printf("SSN,Name,Dept,Designation,Salary,PhNo:\n");
+ scanf("%s%s%s%s%lf%s",node->ssn,node->name,node->dept,node->desig,&node->sal,node-
+>ph);
+ node->leftlink=NULL;
+ node->rightlink=NULL;
+Page | 51
+ count++;
+ return node;
+}
+struct employee * insert_front(struct employee *first)
+{
+struct employee*temp;
+temp=create(first);
+if(first==NULL)
+{
+ return temp;
+}
+temp->rightlink=first;
+first->leftlink=temp;
+return temp;
+}
+void display(struct employee *first)
+{
+ struct employee *cur;
+ int nodeno=1;
+ cur=first;
+ if(cur==NULL)
+ {
+printf("No contents to display in DLL");
+ }
+ while(cur!=NULL)
+ {
+Page | 52
+printf("\nEmployee %d\n\tSSN: %s\tNAME: %s\tDEPT:%s\tDESIGNATION: %s\tSALARY: 
+%.2f\tPh: %s\n",nodeno,cur->ssn,cur->name,cur->dept,cur->desig,cur->sal,cur->ph);
+ cur=cur->rightlink;
+nodeno++;
+ }
+printf("The total number of Employees are %d",count);
+ }
+struct employee * delete_front(struct employee *first)
+{
+ struct employee *temp;
+ if(first==NULL)
+ {
+printf("No records to delete\n");
+ return NULL;
+ }
+ if(first->rightlink== NULL)
+ {
+printf("\nThe employee node with the ssn:%s is deleted", first->ssn);
+ free(first);
+ count--;
+ return NULL;
+ }
+ temp = first;
+ first = first->rightlink;
+ temp->rightlink = NULL;
+ first->leftlink = NULL;
+Page | 53
+printf("\nThe employee node with the ssn:%s is deleted",temp->ssn);
+ free(temp);
+ count--;
+ return first;
+}
+struct employee * insert_end(struct employee *first)
+{
+ struct employee *temp,*cur;
+ temp=create(first);
+ if(first==NULL)
+ {
+ return temp;
+ }
+ cur=first;
+ while(cur->rightlink!=NULL)
+ {
+ cur=cur->rightlink;
+ }
+ cur->rightlink=temp;
+ temp->leftlink=cur;
+ return first;
+}
+struct employee * delete_end(struct employee *first)
+{
+ struct employee *cur, *prev;
+ if(first==NULL)
+ {
+Page | 54
+printf("No records to delete\n");
+ return first;
+ }
+ if(first->rightlink==NULL)
+ {
+printf("\n The employee with ssn:%s is deleted",first->ssn);
+ free(first);
+ count--;
+ return NULL;
+ }
+prev=NULL;
+ cur=first;
+ while(cur->rightlink!=NULL)
+ {
+prev=cur;
+ cur=cur->rightlink;
+ }
+ cur->leftlink=NULL;
+printf("The employee with the ssn:%s is deleted",cur->ssn);
+ free(cur);
+prev->rightlink=NULL;
+ count--;
+ return first;
+}
+void dequeue()
+{
+ struct employee *first=NULL;
+Page | 55
+ int choice;
+printf("\nDemonstration of Double-Ended-Queue operations\n");
+while(1)
+ {
+printf("\nEnter 1=> Insert an element to front end\n\t 2=> Delete an element from frontend\n\t 
+3=> Insert an element to rear end\n\t 4=> Delete an element from rear end\n\t 5=> Display 
+Deque status\n\t 6=> Exit\n\t");
+printf("Enter your choice:");
+scanf("%d",&choice);
+ switch(choice)
+ {
+ case 1: first=insert_front(first);
+ break;
+ case 2: first=delete_front(first);
+ break;
+ case 3: first=insert_end(first);
+ break;
+ case 4: first=delete_end(first);
+ break;
+ case 5: display(first);
+ break;
+ default: return;
+ }
+ }
+}
