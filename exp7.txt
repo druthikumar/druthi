@@ -1,0 +1,168 @@
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct list
+{
+ char usn[10],name[10];
+ char branch[5];
+ int sem;
+ int phno;
+ struct list *next;
+}node;
+node* insertfront(node *first)
+{
+node *temp;
+temp=(struct list *)malloc(sizeof(node));
+if(temp!=NULL)
+printf("memory allocated\n");
+printf("enter the usn,name,branch,sem,phno\n");
+scanf("%s%s%s%d%d",&temp->usn,&temp->name,&temp->branch,&temp->sem,&temp-
+>phno);
+Page | 36
+temp->next=NULL;
+if(first==NULL)
+return(temp);
+temp->next=first;
+first=temp;
+return first;
+}
+node* delfront(node *first)
+{
+int i;
+node *temp=first;
+if(first==NULL)
+{
+printf("list is empty..can't delete\n");
+ return first;
+}
+else
+{
+printf("the student record deleted is %s",temp->name);
+ first=temp->next;
+ free(temp);
+}
+return first;
+}
+void insertend(node *first)
+{
+node *cur,*ptr,*temp;
+Page | 37
+temp=(struct list *)malloc(sizeof(node));
+printf("enter the usn,name,branch,sem,phno\n");
+scanf("%s%s%s%d%d",&temp->usn,&temp->name,&temp->branch,&temp->sem,&temp-
+>phno);
+temp->next=NULL;
+cur=first;
+while(cur->next!=NULL)
+cur= cur ->next;
+cur ->next=temp;
+}
+node* delend(node *first)
+{
+node *cur,*prev;
+cur =prev=first;
+if(first->next==NULL)
+{
+printf("\nThe record deleted is %s",first->name);
+ free(first);
+ return NULL;
+}
+while(cur->next!=NULL)
+{
+prev=cur;
+ cur=cur->next;
+}
+printf("\nthe record deleted is %s",cur->name);
+prev->next=NULL;
+Page | 38
+free(cur);
+return first;
+}
+void display(node *first)
+{
+int count=0;
+node *temp=first;
+if(first==NULL)
+{
+printf("No records to display\n");
+ return;
+}
+while(temp!=NULL)
+{
+ count++;
+ printf("\n%s\t%s\t%s\t%d\t%d\n",temp->usn,temp->name,temp->branch,temp->sem,temp-
+>phno);
+ temp=temp->next;
+}
+printf("Total number of records is %d",count);
+}
+node* stackoper(node *first)
+{
+int ch;
+printf("\n1.Push\t2.Pop\n");
+printf("Enter your choice\n");
+scanf("%d",&ch);
+Page | 39
+switch(ch)
+{
+ case 1:first=insertfront(first);
+ break;
+ case 2:first=delfront(first);
+ break;
+default:printf("Enter valid choice");
+}
+return first;
+}
+node* queoper(node *first)
+{
+int ch;
+printf("\n1.Enque\t2.Deque\n");
+printf("Enter your choice\n");
+scanf("%d",&ch);
+switch(ch)
+{
+ case 1:insertend(first);
+ break;
+ case 2:first=delfront(first);
+ break;
+default:printf("Enter valid choice");
+}
+return first;
+}
+void main()
+Page | 40
+{
+int i,n,choice;
+node *first=NULL;
+printf("Single linked list\n");
+while(1)
+{
+printf("\n1.Create list 2.Insert front 3.Insert end 4.Delete front 5.Delete at end ");
+printf("6.Display 7.To demonstrate SLL as stack 8.To demonstrate SLL as queue 9.exit\n");
+printf("\nenter your choice\n");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:printf("\nEnter the number of students\n");
+scanf("%d",&n);
+for(i=1;i<=n;i++)
+first=insertfront(first);
+break;
+case 2:first=insertfront(first);
+ break;
+case 3:insertend(first);
+ break;
+case 4:first=delfront(first);
+ break;
+case 5:first=delend(first);
+ break;
+case 6:display(first);
+ break;
+Page | 41
+case 7:first=stackoper(first);
+ break;
+case 8:first=queoper(first);
+ break;
+case 9:exit(0);
+default:printf("Enter valid choice");
+}
+}
