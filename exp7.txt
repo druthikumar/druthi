@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<mathlib.h>
 typedef struct list
 {
  char usn[10],name[10];
