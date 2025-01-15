@@ -3,6 +3,8 @@
 #define maxsize 10 
 int a[maxsize],n,i,ele,pos; 
 int create() 
+int read()
+{
 { 
 printf("enter the no of elements\n"); 
 scanf("%d",&n); 
